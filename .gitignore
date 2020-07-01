@@ -3,3 +3,6 @@ Logs/
 obj/
 Assembly-CSharp.csproj
 tafan.sln
+Temp/
+GitTower2.sln
+.vs/GitTower2/v15/.suo
