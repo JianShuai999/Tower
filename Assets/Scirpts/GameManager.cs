@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
 {
     public List<MonsterInfo> monsterInfolist = new List<MonsterInfo>();
     private float MonsterDeadCount;
+    public LayerMask layermark;
+    public GameObject tower;
 
     // Start is called before the first frame update
     void Start()
@@ -26,7 +28,23 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray tempray =  Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit tempraycastHit;
+            if (Physics.Raycast(tempray, out tempraycastHit, 100000, layermark))
+            {
+                Plate tempplateform = tempraycastHit.collider.GetComponentInParent<Plate>();
+                if ((tempplateform != null)&&!tempplateform.hastower)
+                {
+                    GameObject temptower = GameObject.Instantiate(tower);
+                    temptower.transform.parent = null;
+                    temptower.transform.position = tempplateform.towerPoint.position;
+                    temptower.transform.rotation = tempplateform.towerPoint.rotation;
+                    tempplateform.hastower = true;
+                }
+            }
+        }
     }
 
     public IEnumerator CreateMonster()
