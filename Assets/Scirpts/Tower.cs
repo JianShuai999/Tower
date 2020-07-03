@@ -9,6 +9,7 @@ public class Tower : MonoBehaviour
     public float attackDistance;
     public float attackInterval;//间隔时间
     private float preAttackTime = 0;
+    public float cost;
 
     // Start is called before the first frame update
     void Start()

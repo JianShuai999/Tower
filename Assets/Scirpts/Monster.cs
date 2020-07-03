@@ -9,9 +9,10 @@ public class Monster : MonoBehaviour
 {
     public float hurt;
     public float Blood;
+    public float addcost;
     private Transform endPoint;
     private NavMeshAgent navMeshAgent;
-    public UnityAction onDeadAction;
+    public UnityAction<Monster> onDeadAction;
 
     // Start is called before the first frame update
     void Start()
@@ -48,7 +49,7 @@ public class Monster : MonoBehaviour
 
     public void OnDead()
     {
-        onDeadAction?.Invoke();
+        onDeadAction?.Invoke(this);
         Destroy(gameObject);
         
     }

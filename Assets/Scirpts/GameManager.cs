@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 [Serializable]
 public class MonsterInfo
@@ -18,6 +19,8 @@ public class GameManager : MonoBehaviour
     private float MonsterDeadCount;
     public LayerMask layermark;
     public GameObject tower;
+    public float Money;
+    public Text costtext;
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +31,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        costtext.text = Money.ToString();
         if (Input.GetMouseButtonDown(0))
         {
             Ray tempray =  Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -37,11 +41,17 @@ public class GameManager : MonoBehaviour
                 Plate tempplateform = tempraycastHit.collider.GetComponentInParent<Plate>();
                 if ((tempplateform != null)&&!tempplateform.hastower)
                 {
-                    GameObject temptower = GameObject.Instantiate(tower);
-                    temptower.transform.parent = null;
-                    temptower.transform.position = tempplateform.towerPoint.position;
-                    temptower.transform.rotation = tempplateform.towerPoint.rotation;
-                    tempplateform.hastower = true;
+                    float tempCost = tower.GetComponent<Tower>().cost;
+                    if (Money >tempCost)
+                    {
+                        GameObject temptower = GameObject.Instantiate(tower);
+                        temptower.transform.parent = null;
+                        temptower.transform.position = tempplateform.towerPoint.position;
+                        temptower.transform.rotation = tempplateform.towerPoint.rotation;
+                        tempplateform.hastower = true;
+
+                        Money -= tempCost;
+                    }
                 }
             }
         }
@@ -62,8 +72,9 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void OnMonsterDead()
+    public void OnMonsterDead(Monster pmonster)
     {
+        Money += pmonster.addcost;
         MonsterDeadCount++;
         if (MonsterDeadCount == monsterInfolist.Count)
         {

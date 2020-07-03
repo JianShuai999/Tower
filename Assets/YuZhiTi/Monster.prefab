@@ -79,6 +79,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hurt: 50
   Blood: 100
+  addcost: 1
 --- !u!195 &2754980314610972397
 NavMeshAgent:
   m_ObjectHideFlags: 0
