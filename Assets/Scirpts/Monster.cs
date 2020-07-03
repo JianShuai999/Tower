@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class Monster : MonoBehaviour
@@ -10,6 +11,8 @@ public class Monster : MonoBehaviour
     public float Blood;
     private Transform endPoint;
     private NavMeshAgent navMeshAgent;
+    public UnityAction onDeadAction;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,7 +48,8 @@ public class Monster : MonoBehaviour
 
     public void OnDead()
     {
+        onDeadAction?.Invoke();
         Destroy(gameObject);
-        SceneManager.LoadScene("SucceedScene");
+        
     }
 }
