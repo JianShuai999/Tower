@@ -8,12 +8,12 @@ using UnityEngine.SceneManagement;
 public class MonsterInfo
 {
     public GameObject monster;
+    public Transform bornPoint;
     public float waitTime;
 }
 
 public class GameManager : MonoBehaviour
 {
-    public Transform bornPoint;
     public List<MonsterInfo> monsterInfolist = new List<MonsterInfo>();
     private float MonsterDeadCount;
 
@@ -35,8 +35,8 @@ public class GameManager : MonoBehaviour
         {
             GameObject tempMonster = GameObject.Instantiate(item.monster);
             tempMonster.transform.parent = null;
-            tempMonster.transform.position = bornPoint.transform.position;
-            tempMonster.transform.rotation = bornPoint.transform.rotation;
+            tempMonster.transform.position = item.bornPoint.transform.position;
+            tempMonster.transform.rotation = item.bornPoint.transform.rotation;
             tempMonster.GetComponent<Monster>().onDeadAction += OnMonsterDead;
 
             yield return new WaitForSeconds(item.waitTime);
