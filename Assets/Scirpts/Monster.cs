@@ -10,17 +10,18 @@ public class Monster : MonoBehaviour
     public float hurt;
     public float Blood;
     public float addcost;
-    private Transform endPoint;
+    public Transform endPoint;
     private NavMeshAgent navMeshAgent;
+    public GameObject DeadEffect;
     public UnityAction<Monster> onDeadAction;
 
     // Start is called before the first frame update
     void Start()
     {
-        endPoint = GameObject.Find("EndPoint").transform;
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.SetDestination(endPoint.position);
-    }
+
+}
 
     // Update is called once per frame
     void Update()
@@ -49,8 +50,11 @@ public class Monster : MonoBehaviour
 
     public void OnDead()
     {
+        GameObject tempDeadEffect =  GameObject.Instantiate(DeadEffect);
+        tempDeadEffect.transform.parent = null;
+        tempDeadEffect.transform.position = transform.position;
+        tempDeadEffect.transform.rotation = transform.rotation;
         onDeadAction?.Invoke(this);
         Destroy(gameObject);
-        
-    }
+     }
 }

@@ -11,6 +11,7 @@ public class MonsterInfo
     public GameObject monster;
     public Transform bornPoint;
     public float waitTime;
+    public Transform endPoint;
 }
 
 public class GameManager : MonoBehaviour
@@ -42,7 +43,7 @@ public class GameManager : MonoBehaviour
                 if ((tempplateform != null)&&!tempplateform.hastower)
                 {
                     float tempCost = tower.GetComponent<Tower>().cost;
-                    if (Money >tempCost)
+                    if (Money >=tempCost)
                     {
                         GameObject temptower = GameObject.Instantiate(tower);
                         temptower.transform.parent = null;
@@ -65,7 +66,9 @@ public class GameManager : MonoBehaviour
             tempMonster.transform.parent = null;
             tempMonster.transform.position = item.bornPoint.transform.position;
             tempMonster.transform.rotation = item.bornPoint.transform.rotation;
+            Monster tempMostergo = tempMonster.GetComponent<Monster>();
             tempMonster.GetComponent<Monster>().onDeadAction += OnMonsterDead;
+            tempMostergo.endPoint = item.endPoint;
 
             yield return new WaitForSeconds(item.waitTime);
         }
